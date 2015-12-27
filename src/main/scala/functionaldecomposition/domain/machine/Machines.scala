@@ -5,7 +5,7 @@ import functionaldecomposition.domain.{Task, Deadline}
 /**
  * Created by grzegorz.miejski on 27/12/15.
  */
-class Machines(machines: List[Machine], deadline: Deadline) {
+class Machines(machines: List[Machine], deadline: Deadline) extends Serializable{
 
   def createCopy(): List[Machine] = {
     machines.map(_.createCopy())

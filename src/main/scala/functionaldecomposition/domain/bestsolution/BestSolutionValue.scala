@@ -6,7 +6,7 @@ import functionaldecomposition.domain.machine.Machines
 /**
  * Created by grzegorz.miejski on 27/12/15.
  */
-class BestSolutionValue {
+class BestSolutionValue extends Serializable{
 
   var currentBestCost = Int.MaxValue
   var currentBestMachines: Machines = _

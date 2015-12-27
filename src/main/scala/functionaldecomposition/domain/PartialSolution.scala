@@ -6,7 +6,7 @@ import functionaldecomposition.standard.bestsolution.BestSolutionHolder
 /**
  * Created by grzegorz.miejski on 27/12/15.
  */
-class PartialSolution(machines: Machines, tasksLeft: List[Task]) {
+class PartialSolution(machines: Machines, tasksLeft: List[Task]) extends Serializable {
 
   var partialSolutions: List[PartialSolution] = _
 
@@ -24,7 +24,6 @@ class PartialSolution(machines: Machines, tasksLeft: List[Task]) {
   }
 
   def search(): Unit = {
-
     if (machines.totalCost() <= BestSolutionHolder.currentBestCost && machines.solutionWithinDeadline()) {
       if (isLeaf) {
         BestSolutionHolder.tryUpdate(machines)

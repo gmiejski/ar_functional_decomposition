@@ -5,7 +5,7 @@ import functionaldecomposition.domain.Task
 /**
  * Created by grzegorz.miejski on 27/12/15.
  */
-class Machine(var tasks: List[Task]) {
+class Machine(var tasks: List[Task]) extends Serializable {
   def addTask(nextTask: Task) = {
     tasks = tasks ++ List(nextTask)
   }
