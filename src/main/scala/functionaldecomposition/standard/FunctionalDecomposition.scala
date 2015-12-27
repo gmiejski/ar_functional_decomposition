@@ -1,13 +1,12 @@
-package functionaldecomposition
+package functionaldecomposition.standard
 
-import functionaldecomposition.decomposers.StandardDecomposer
-import functionaldecomposition.domain.{Task, Deadline}
+import functionaldecomposition.domain.{Deadline, Task}
+import functionaldecomposition.standard.decomposers.StandardDecomposer
 
 /**
  * Created by grzegorz.miejski on 26/12/15.
  */
 object FunctionalDecomposition {
-
 
   def main(args: Array[String]) {
 

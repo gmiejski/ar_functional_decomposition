@@ -1,6 +1,6 @@
 package functionaldecomposition
 
-import functionaldecomposition.domain.BestCostHolder
+import functionaldecomposition.standard.bestsolution.BestSolutionHolder
 import org.scalatest.{Matchers, BeforeAndAfter, FunSuite}
 
 /**
@@ -11,7 +11,7 @@ with BeforeAndAfter
 with Matchers {
 
   before {
-    BestCostHolder.clean()
+    BestSolutionHolder.clean()
   }
 
 }

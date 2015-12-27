@@ -1,6 +1,7 @@
 package functionaldecomposition.domain
 
 import functionaldecomposition.domain.machine.Machines
+import functionaldecomposition.standard.bestsolution.BestSolutionHolder
 
 /**
  * Created by grzegorz.miejski on 27/12/15.
@@ -24,9 +25,9 @@ class PartialSolution(machines: Machines, tasksLeft: List[Task]) {
 
   def search(): Unit = {
 
-    if (machines.totalCost() <= BestCostHolder.currentBestCost && machines.solutionWithinDeadline()) {
+    if (machines.totalCost() <= BestSolutionHolder.currentBestCost && machines.solutionWithinDeadline()) {
       if (isLeaf) {
-        BestCostHolder.tryUpdate(machines)
+        BestSolutionHolder.tryUpdate(machines)
       } else {
         partialSolutions = createPartialSolutions()
         partialSolutions.foreach(_.search())

@@ -1,7 +1,8 @@
-package functionaldecomposition.decomposers
+package functionaldecomposition.standard.decomposers
 
 import functionaldecomposition.domain._
 import functionaldecomposition.domain.machine.Machines
+import functionaldecomposition.standard.bestsolution.BestSolutionHolder
 
 /**
  * Created by grzegorz.miejski on 27/12/15.
@@ -37,7 +38,7 @@ object StandardDecomposer {
 
     startingPartialsSolutions.foreach(_.search())
 
-    BestCostHolder.getSolution
+    BestSolutionHolder.getSolution
   }
 
   def createStartingPartialSolutions(deadline: Deadline, tasks: List[Task], possibleProcessesCount: List[Int]): List[PartialSolution] = {

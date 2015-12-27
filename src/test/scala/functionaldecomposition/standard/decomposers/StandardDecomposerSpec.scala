@@ -1,4 +1,4 @@
-package functionaldecomposition.decomposers
+package functionaldecomposition.standard.decomposers
 
 import functionaldecomposition.BaseTestSuite
 import functionaldecomposition.domain.{Deadline, Solution, Task}
@@ -15,7 +15,6 @@ class StandardDecomposerSpec extends BaseTestSuite {
     val possibleProcessesCounts = StandardDecomposer.possibleProcessesCounts(Deadline(11), tasks)
 
     possibleProcessesCounts should be(List(4, 5, 6, 7, 8, 9))
-
   }
 
   test("return correct result when needs all machines to be used") {

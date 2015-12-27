@@ -1,23 +1,20 @@
-package functionaldecomposition.domain
+package functionaldecomposition.domain.bestsolution
 
+import functionaldecomposition.domain.Solution
 import functionaldecomposition.domain.machine.Machines
 
 /**
  * Created by grzegorz.miejski on 27/12/15.
  */
-class BestCostHolder {
-
-}
-
-object BestCostHolder {
-
-  def clean() = {
-    currentBestCost = Int.MaxValue
-    var currentBestMachines: Machines = null
-  }
+class BestSolutionValue {
 
   var currentBestCost = Int.MaxValue
   var currentBestMachines: Machines = _
+
+  def clean() = {
+    currentBestCost = Int.MaxValue
+    currentBestMachines = null
+  }
 
   def usesLessMachines(machines: Machines): Boolean = {
     machines.totalCost() == currentBestCost && this.currentBestMachines.longestMachineWorkingTime() > machines.longestMachineWorkingTime()
@@ -32,6 +29,13 @@ object BestCostHolder {
 
   def getSolution: Solution = {
     Solution(currentBestMachines)
+  }
+
+}
+
+object BestSolutionValue {
+  def apply(): BestSolutionValue = {
+    new BestSolutionValue
   }
 
 }
