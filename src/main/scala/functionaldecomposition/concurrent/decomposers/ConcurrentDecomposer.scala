@@ -7,7 +7,7 @@ import functionaldecomposition.standard.decomposers.StandardDecomposer
 /**
  * Created by grzegorz.miejski on 27/12/15.
  */
-class ConcurentDecomposer extends Actor with ActorLogging {
+class ConcurrentDecomposer extends Actor with ActorLogging {
 
   var computing: Boolean = false
   var finishedSubtasks = 0
@@ -46,18 +46,12 @@ class ConcurentDecomposer extends Actor with ActorLogging {
       partialSolutionsManagers zip possibleProcessesCount foreach (s => {
         s._1 ! SearchForSolution(s._2, deadline, tasks)
       })
-//      findSolution(deadline, tasks, possibleProcessesCount)
     }
   }
 
   def createChildActors(possibleProcessesCount: List[Int]): List[ActorRef] = {
-    possibleProcessesCount.map(Props(classOf[PartialSolutionActor], _)).map(context.actorOf)
+    List.fill(possibleProcessesCount.length)(context.actorOf(Props(classOf[PartialSolutionActor])))
   }
-
-//  def findSolution(deadline: Deadline, tasks: List[Task], possibleProcessesCount: List[Int]): Solution = {
-//
-//  }
-
 }
 
 case class Solve(deadline: Deadline, tasks: List[Task])

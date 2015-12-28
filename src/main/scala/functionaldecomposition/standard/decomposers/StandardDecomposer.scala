@@ -3,6 +3,7 @@ package functionaldecomposition.standard.decomposers
 import functionaldecomposition.domain._
 import functionaldecomposition.domain.machine.Machines
 import functionaldecomposition.standard.bestsolution.BestSolutionHolder
+import functionaldecomposition.standard.partial.StandardPartialSolution
 
 /**
  * Created by grzegorz.miejski on 27/12/15.
@@ -34,15 +35,15 @@ object StandardDecomposer {
   def findSolution(deadline: Deadline, tasks: List[Task], possibleProcessesCount: List[Int]): Solution = {
     val sortedTasks = tasks.sortBy(_.time)(Ordering[Int].reverse)
 
-    val startingPartialsSolutions: List[PartialSolution] = createStartingPartialSolutions(deadline, sortedTasks, possibleProcessesCount)
+    val startingPartialsSolutions: List[StandardPartialSolution] = createStartingPartialSolutions(deadline, sortedTasks, possibleProcessesCount)
 
     startingPartialsSolutions.foreach(_.search())
 
     BestSolutionHolder.getSolution
   }
 
-  def createStartingPartialSolutions(deadline: Deadline, tasks: List[Task], possibleProcessesCount: List[Int]): List[PartialSolution] = {
-    possibleProcessesCount.map(Machines(_, deadline)).map(PartialSolution(_, tasks))
+  def createStartingPartialSolutions(deadline: Deadline, tasks: List[Task], possibleProcessesCount: List[Int]): List[StandardPartialSolution] = {
+    possibleProcessesCount.map(Machines(_, deadline)).map(StandardPartialSolution(_, tasks))
   }
 
 }

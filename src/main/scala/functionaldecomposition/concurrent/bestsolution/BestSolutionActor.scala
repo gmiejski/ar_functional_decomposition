@@ -16,6 +16,7 @@ class BestSolutionActor(aaa: String) extends Actor with ActorLogging {
       log.info(s"updating value in bestSolutionActor : ${machines.processingTimeSum()}")
       bestSolutionValue.tryUpdate(machines)
     case Refresh() => sender ! RefreshResponse
+    case msg: String => log.info(msg)
   }
 
 }

@@ -1,7 +1,9 @@
 package functionaldecomposition.concurrent
 
 import akka.actor.{ActorSystem, Props}
+import com.typesafe.config.ConfigFactory
 import functionaldecomposition.concurrent.bestsolution.BestSolutionActor
+import functionaldecomposition.concurrent.decomposers.{Solve, ConcurrentDecomposer}
 import functionaldecomposition.domain.{Deadline, Task}
 
 /**
@@ -12,12 +14,19 @@ object ConcurrentFunctionalDecomposition {
   def main(args: Array[String]) {
 
     val deadline: Deadline = Deadline(11)
-    val tasks = List(4, 3, 2, 1, 4, 1, 5, 6, 10).map(Task(_))
+//    val tasks = List(4, 3, 2, 1, 4, 1, 5, 6, 10).map(Task(_))
+    val tasks = List(5).map(Task(_))
 
-    val system = ActorSystem("functional-decomposition")
+    val system = ActorSystem("functional-decomposition", ConfigFactory.load("application"))
 
-    val bestSolutionActor = system.actorOf(Props(classOf[BestSolutionActor], "arg"),"bestSolutionActor")
+    val bestSolutionActor = system.actorOf(Props(classOf[BestSolutionActor], "arg"), "bestSolutionActor")
+    val concurrentDecomposer = system.actorOf(Props(classOf[ConcurrentDecomposer]), "concurrentDecomposerActor")
+
     println(bestSolutionActor.path)
+    println(concurrentDecomposer.path)
 
+    system.actorSelection("akka://functional-decomposition/user/bestSolutionActor") ! "dupa"
+
+    concurrentDecomposer ! Solve(deadline, tasks)
   }
 }
