@@ -1,7 +1,10 @@
 package functionaldecomposition.concurrent.decomposers
 
-import akka.actor.{Actor, ActorLogging, ActorRef, Props}
-import functionaldecomposition.domain.{Deadline, Task}
+import akka.actor.{Actor, ActorLogging, ActorRef}
+import functionaldecomposition.concurrent.bestsolution.PrintSolution
+import functionaldecomposition.concurrent.partial.{ChildSolutionCalculated, PartialSolutionActor, SearchForSolution}
+import functionaldecomposition.domain.machine.Machines
+import functionaldecomposition.domain.{ChildActorsTracker, Deadline, Task}
 import functionaldecomposition.standard.decomposers.StandardDecomposer
 
 /**
@@ -10,50 +13,47 @@ import functionaldecomposition.standard.decomposers.StandardDecomposer
 class ConcurrentDecomposer extends Actor with ActorLogging {
 
   var computing: Boolean = false
-  var finishedSubtasks = 0
-  var partialSolutions = 0
-
+  var childActorsTracker: ChildActorsTracker = _
+  
+  
   def receive = {
     case Solve(deadline, tasks) => solve(deadline, tasks)
-    case FinishedPartialSolution() => logCompletedSubtask()
+    case ChildSolutionCalculated() => logCompletedSubtask()
   }
 
   def logCompletedSubtask() = {
-    finishedSubtasks += 1
-    log.info(s"Completed ($finishedSubtasks / $partialSolutions) subtasks")
-    if (finishedSubtasks == partialSolutions) {
+    childActorsTracker.registerChildProcessEnded()
+    log.info(childActorsTracker.getMessage())
+    if (childActorsTracker.isCompleted()) {
       // TODO get response from bestSolutionActor
+      context.actorSelection("akka://functional-decomposition/user/bestSolutionActor") ! PrintSolution()
     }
   }
 
   def prepareForComputing(partialSolutions: Int) = {
     this.computing = true
-    this.finishedSubtasks = 0
-    this.partialSolutions = partialSolutions
+    this.childActorsTracker = new ChildActorsTracker(partialSolutions)
   }
 
-  def solve(deadline: Deadline, tasks: List[Task]) = {
-
+  def solve(deadline: Deadline, tasks: List[Task]): Unit = {
     if (computing) {
       log.error("Cannot start computing before finishing previous one!")
-      null
     } else {
 
       val possibleProcessesCount = StandardDecomposer.possibleProcessesCounts(deadline, tasks)
       prepareForComputing(possibleProcessesCount.length)
-      val partialSolutionsManagers: List[ActorRef] = createChildActors(possibleProcessesCount)
+      val childSolutionsActors: List[ActorRef] = createChildActors(possibleProcessesCount)
 
-      partialSolutionsManagers zip possibleProcessesCount foreach (s => {
-        s._1 ! SearchForSolution(s._2, deadline, tasks)
+      childSolutionsActors zip possibleProcessesCount foreach (s => {
+        val machinesForActor: Machines = Machines.apply(s._2, deadline)
+        s._1 ! SearchForSolution(machinesForActor, tasks)
       })
     }
   }
 
   def createChildActors(possibleProcessesCount: List[Int]): List[ActorRef] = {
-    List.fill(possibleProcessesCount.length)(context.actorOf(Props(classOf[PartialSolutionActor])))
+    PartialSolutionActor.createActors(possibleProcessesCount.length, context)
   }
 }
 
 case class Solve(deadline: Deadline, tasks: List[Task])
-
-case class FinishedPartialSolution()

@@ -14,11 +14,17 @@ class BestSolutionActor(aaa: String) extends Actor with ActorLogging {
   def receive = {
     case TryUpdateMessage(machines) =>
       log.info(s"updating value in bestSolutionActor : ${machines.processingTimeSum()}")
+      log.info(machines.printableForm())
       bestSolutionValue.tryUpdate(machines)
-    case Refresh() => sender ! RefreshResponse
-    case msg: String => log.info(msg)
+    case Refresh() => sender ! RefreshResponse(bestSolutionValue)
+    case PrintSolution() => printSolution()
   }
 
+  def printSolution() = {
+    log.info("Final result:")
+    log.info(bestSolutionValue.currentBestMachines.printableForm())
+    context.system.terminate()
+  }
 }
 
 case class TryUpdateMessage(machines: Machines)
@@ -26,3 +32,5 @@ case class TryUpdateMessage(machines: Machines)
 case class Refresh()
 
 case class RefreshResponse(bestSolutionValue: BestSolutionValue)
+
+case class PrintSolution()

@@ -8,6 +8,20 @@ import functionaldecomposition.domain.{Deadline, Task}
  */
 class MachinesSpec extends BaseTestSuite {
 
+  test("printable view of machines") {
+
+    val machines = Machines.apply(3, Deadline(10))
+
+    machines.getMachines.apply(0).addTask(Task(10))
+    machines.getMachines.apply(0).addTask(Task(20))
+    machines.getMachines.apply(1).addTask(Task(1))
+    machines.getMachines.apply(1).addTask(Task(2))
+    machines.getMachines.apply(1).addTask(Task(3))
+    machines.getMachines.apply(2).addTask(Task(30))
+
+    machines.printableForm() should be("[10,20]\n[1,2,3]\n[30]")
+  }
+
   test("should create new machine usage paths") {
 
     val machines = Machines.apply(3, Deadline(10))

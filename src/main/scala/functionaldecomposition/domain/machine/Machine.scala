@@ -22,6 +22,9 @@ class Machine(var tasks: List[Task]) extends Serializable {
     tasks.map(_.time).sum
   }
 
+  def toPrintableForm: String = {
+    "[" + tasks.map(_.time).mkString(",") + "]"
+  }
 }
 
 object Machine {

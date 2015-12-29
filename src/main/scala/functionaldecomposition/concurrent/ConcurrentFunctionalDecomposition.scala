@@ -15,7 +15,7 @@ object ConcurrentFunctionalDecomposition {
 
     val deadline: Deadline = Deadline(11)
 //    val tasks = List(4, 3, 2, 1, 4, 1, 5, 6, 10).map(Task(_))
-    val tasks = List(5).map(Task(_))
+    val tasks = List(4, 3, 2, 4, 3 ,2, 1).map(Task(_))
 
     val system = ActorSystem("functional-decomposition", ConfigFactory.load("application"))
 
@@ -24,8 +24,6 @@ object ConcurrentFunctionalDecomposition {
 
     println(bestSolutionActor.path)
     println(concurrentDecomposer.path)
-
-    system.actorSelection("akka://functional-decomposition/user/bestSolutionActor") ! "dupa"
 
     concurrentDecomposer ! Solve(deadline, tasks)
   }

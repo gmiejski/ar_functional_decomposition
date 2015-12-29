@@ -7,6 +7,12 @@ import functionaldecomposition.domain.{Task, Deadline}
  */
 class Machines(machines: List[Machine], deadline: Deadline) extends Serializable{
 
+
+  def printableForm(): String = {
+    machines.map(_.toPrintableForm).mkString("--")
+  }
+
+
   def createCopy(): List[Machine] = {
     machines.map(_.createCopy())
   }
