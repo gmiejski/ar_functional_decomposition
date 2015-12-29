@@ -22,7 +22,7 @@ class PartialSolutionActor extends Actor with ActorLogging {
   }
 
   def saveActorConfiguration(machines: Machines, tasks: List[Task]) = {
-    log.info(s"Searching for partial result : ${machines.machinesUsed()}, tasks left: ${tasks.length}")
+    log.debug(s"Searching for partial result : ${machines.machinesUsed()}, tasks left: ${tasks.length}")
     val solutionReceiver = context.actorSelection("akka://functional-decomposition/user/bestSolutionActor")
     solutionReceiver ! Refresh()
     this.partialSolution = ConcurrentPartialSolution(machines, tasks, solutionReceiver)

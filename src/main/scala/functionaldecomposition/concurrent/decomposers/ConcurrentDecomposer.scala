@@ -14,25 +14,11 @@ class ConcurrentDecomposer extends Actor with ActorLogging {
 
   var computing: Boolean = false
   var childActorsTracker: ChildActorsTracker = _
-  
-  
+  var startTime: Long = _
+
   def receive = {
     case Solve(deadline, tasks) => solve(deadline, tasks)
     case ChildSolutionCalculated() => logCompletedSubtask()
-  }
-
-  def logCompletedSubtask() = {
-    childActorsTracker.registerChildProcessEnded()
-    log.info(childActorsTracker.getMessage())
-    if (childActorsTracker.isCompleted()) {
-      // TODO get response from bestSolutionActor
-      context.actorSelection("akka://functional-decomposition/user/bestSolutionActor") ! PrintSolution()
-    }
-  }
-
-  def prepareForComputing(partialSolutions: Int) = {
-    this.computing = true
-    this.childActorsTracker = new ChildActorsTracker(partialSolutions)
   }
 
   def solve(deadline: Deadline, tasks: List[Task]): Unit = {
@@ -48,6 +34,24 @@ class ConcurrentDecomposer extends Actor with ActorLogging {
         val machinesForActor: Machines = Machines.apply(s._2, deadline)
         s._1 ! SearchForSolution(machinesForActor, tasks)
       })
+    }
+  }
+
+  def prepareForComputing(partialSolutions: Int) = {
+    this.computing = true
+    this.childActorsTracker = new ChildActorsTracker(partialSolutions)
+    this.startTime = System.currentTimeMillis()
+  }
+
+  def logCompletedSubtask() = {
+    this.childActorsTracker.registerChildProcessEnded()
+    log.debug(this.childActorsTracker.getMessage())
+    if (this.childActorsTracker.isCompleted()) {
+      // TODO get response from bestSolutionActor
+      this.computing = false
+      this.childActorsTracker = null
+      val time = (System.currentTimeMillis() - startTime) / 1000
+      context.actorSelection("akka://functional-decomposition/user/bestSolutionActor") ! PrintSolution(time)
     }
   }
 
