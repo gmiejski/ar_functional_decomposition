@@ -1,3 +1,10 @@
 [INFO] [01/02/2016 15:16:55.864] [functional-decomposition-akka.actor.default-dispatcher-13] [akka://functional-decomposition/user/bestSolutionActor] Final result after 14 seconds:
 [INFO] [01/02/2016 15:16:55.864] [functional-decomposition-akka.actor.default-dispatcher-13] [akka://functional-decomposition/user/bestSolutionActor] [4,2]--[3,3]--[4,2]--[1,5]
 [INFO] [01/02/2016 15:16:55.864] [functional-decomposition-akka.actor.default-dispatcher-13] [akka://functional-decomposition/user/bestSolutionActor] Cost: 24
+
+
+[INFO] [01/02/2016 23:12:09.552] [functional-decomposition-akka.actor.default-dispatcher-9] [akka://functional-decomposition/user/bestSolutionActor] Final result after 12 seconds:
+[INFO] [01/02/2016 23:12:09.552] [functional-decomposition-akka.actor.default-dispatcher-9] [akka://functional-decomposition/user/bestSolutionActor] [4,3,2]--[1,1,6]--[4,5]
+[INFO] [01/02/2016 23:12:09.552] [functional-decomposition-akka.actor.default-dispatcher-9] [akka://functional-decomposition/user/bestSolutionActor] Cost: 27
+
+

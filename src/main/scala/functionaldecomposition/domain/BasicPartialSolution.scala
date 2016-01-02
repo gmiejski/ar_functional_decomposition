@@ -28,19 +28,23 @@ abstract class BasicPartialSolution(machines: Machines, tasksLeft: List[Task]) e
   }
 
   def search(): Unit = {
+    if (machines.solutionWithinDeadline()) {
       if (isLeaf) {
         reportSolution(machines)
       } else {
         partialSolutions = createPartialSolutions()
         partialSolutions.foreach(_.search())
       }
+    } else {
+      onExceedDeadline()
+    }
   }
 
   def reportSolution: (Machines) => Unit
 
   def createChildPartialSolution: (Machines, BasicPartialSolution) => BasicPartialSolution
 
-  def onExceedDeadline : () => Unit = {
+  def onExceedDeadline: () => Unit = {
     () => {}
   }
 }

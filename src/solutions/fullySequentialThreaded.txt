@@ -2,3 +2,8 @@ Final solution after 23 seconds:
 [5,1]--[4,2]--[4,2]--[3,3]
 Cost: 24
 Total partial solutions gave up: 0
+
+Final solution after 23 seconds:
+[6,3]--[5,4]--[4,2,1,1]
+Cost: 27
+Total partial solutions gave up: 68260

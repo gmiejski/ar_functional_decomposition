@@ -15,7 +15,7 @@ object AskingFunctionalDecomposition {
   def main(args: Array[String]) {
 
     val deadline: Deadline = Deadline(11)
-    val tasks = List(4, 3, 2, 1, 4, 1, 5, 6, 10).map(Task(_))
+    val tasks = List(4, 3, 2, 1, 4, 1, 5, 6).map(Task(_))
 //    val tasks = List(4, 3, 2, 4, 3, 2, 1, 5).map(Task(_))
 
     val system = ActorSystem("functional-decomposition", ConfigFactory.load("application"))

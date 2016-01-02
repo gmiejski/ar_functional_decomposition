@@ -12,7 +12,8 @@ object StandardFunctionalDecomposition {
   def main(args: Array[String]) {
 
     val deadline: Deadline = Deadline(11)
-    val tasks = List(4, 3, 2, 4, 3, 2, 1, 5).map(Task(_))
+
+    val tasks = List(4, 3, 2, 1, 4, 1, 5, 6).map(Task(_))
     val start = System.currentTimeMillis()
     val solution: Solution = StandardDecomposer.solve(deadline, tasks)
 
