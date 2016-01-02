@@ -13,10 +13,13 @@ class BestSolutionActor(aaa: String) extends Actor with ActorLogging {
 
   def receive = {
     case TryUpdateMessage(machines) =>
-      log.debug(s"updating value in bestSolutionActor : ${machines.processingTimeSum()}")
-      log.debug(machines.printableForm())
+      log.info(s"updating value in bestSolutionActor : ${machines.totalCost()}")
+      log.info(machines.printableForm())
       bestSolutionValue.tryUpdate(machines)
-    case Refresh() => sender ! RefreshResponse(bestSolutionValue)
+    case Refresh() => {
+//      println("sending refresh to actor!")
+      sender ! RefreshResponse(bestSolutionValue)
+    }
     case PrintSolution(time) => printSolution(time)
   }
 
