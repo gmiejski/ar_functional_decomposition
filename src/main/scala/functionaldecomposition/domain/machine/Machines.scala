@@ -5,7 +5,7 @@ import functionaldecomposition.domain.{Task, Deadline}
 /**
  * Created by grzegorz.miejski on 27/12/15.
  */
-class Machines(machines: List[Machine], deadline: Deadline) extends Serializable{
+class Machines(machines: List[Machine], deadline: Deadline) extends Serializable {
 
 
   def printableForm(): String = {
@@ -17,15 +17,21 @@ class Machines(machines: List[Machine], deadline: Deadline) extends Serializable
     machines.map(_.createCopy())
   }
 
+
   def createPossibleAlternatives(nextTask: Task): List[Machines] = {
 
-    val listOfLists = List.fill(machines.length)(createCopy())
-
-    val modifiedMachinesSets: List[List[Machine]] = List()
-    for ((thisMachines, index) <- listOfLists.view.zipWithIndex) {
-      thisMachines.apply(index).addTask(nextTask)
+    if (totalCost() == 0) {
+      val firstMachinesConfiguration: Machines = Machines(createCopy(), deadline)
+      firstMachinesConfiguration.getMachines.head.addTask(nextTask)
+      List(firstMachinesConfiguration)
+    } else {
+      val listOfLists = List.fill(machines.length)(createCopy()) // TODO make immutable
+      val modifiedMachinesSets: List[List[Machine]] = List()
+      for ((thisMachines, index) <- listOfLists.view.zipWithIndex) {
+        thisMachines.apply(index).addTask(nextTask)
+      }
+      listOfLists.map(Machines(_, deadline))
     }
-    listOfLists.map(Machines(_, deadline))
   }
 
   def machinesUsed() = {

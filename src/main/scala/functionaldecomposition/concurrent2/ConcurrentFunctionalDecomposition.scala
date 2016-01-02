@@ -1,9 +1,9 @@
-package functionaldecomposition.concurrent
+package functionaldecomposition.concurrent2
 
 import akka.actor.{ActorSystem, Props}
 import com.typesafe.config.ConfigFactory
 import functionaldecomposition.concurrent.bestsolution.BestSolutionActor
-import functionaldecomposition.concurrent.decomposers.{Solve, ConcurrentDecomposer}
+import functionaldecomposition.concurrent.decomposers.{ConcurrentDecomposer, Solve}
 import functionaldecomposition.domain.{Deadline, Task}
 
 /**

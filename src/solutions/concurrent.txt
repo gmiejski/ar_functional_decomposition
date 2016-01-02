@@ -1,0 +1,8 @@
+Concurrent without BestValueActor:
+
+    tasks: 4, 3, 2, 4, 3 ,2, 1, 5
+    d: 11
+    Final result after 682 seconds:
+    [4,2]--[1,5]--[3,3]--[4,2]
+    Cost: 24
+

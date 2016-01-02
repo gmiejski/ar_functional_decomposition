@@ -21,6 +21,11 @@ class PartialSolutionActor extends Actor with ActorLogging {
     case ChildSolutionCalculated() => registerChildSolutionFinished()
   }
 
+  def go(machines: Machines, tasks: List[Task]) = {
+    this.partialSolution = ConcurrentPartialSolution(machines, tasks, null)
+    saveBestSolutionValue(new BestSolutionValue())
+  }
+
   def saveActorConfiguration(machines: Machines, tasks: List[Task]) = {
     log.debug(s"Searching for partial result : ${machines.machinesUsed()}, tasks left: ${tasks.length}")
     val solutionReceiver = context.actorSelection("akka://functional-decomposition/user/bestSolutionActor")

@@ -13,6 +13,7 @@ class ConcurrentPartialSolution(machines: Machines,
                                 solutionReceiver: ActorSelection) {
   var partialSolutions: List[ConcurrentPartialSolution] = _
 
+
   def getChildSolutions(): List[ConcurrentPartialSolution] = {
     if (tasksLeft.isEmpty) List() else createPartialSolutions()
   }
@@ -38,22 +39,22 @@ class ConcurrentPartialSolution(machines: Machines,
     machines
   }
 
-  def exceedsDeadline() : Boolean = {
+  def exceedsDeadline(): Boolean = {
     !machines.solutionWithinDeadline()
   }
 
-//  def search(): Unit = {
-//    if (machines.solutionWithinDeadline()) {
-//      if (isLeaf) {
-//        reportSolution(machines)
-//      } else {
-//        partialSolutions = createPartialSolutions()
-//        partialSolutions.foreach(_.search())
-//      }
-//    } else {
-//      onExceedDeadline()
-//    }
-//  }
+  //  def search(): Unit = {
+  //    if (machines.solutionWithinDeadline()) {
+  //      if (isLeaf) {
+  //        reportSolution(machines)
+  //      } else {
+  //        partialSolutions = createPartialSolutions()
+  //        partialSolutions.foreach(_.search())
+  //      }
+  //    } else {
+  //      onExceedDeadline()
+  //    }
+  //  }
 
   def reportSolution: (Machines) => Unit = {
     println("Reportins solutions!")
